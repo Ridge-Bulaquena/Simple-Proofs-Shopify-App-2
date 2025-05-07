@@ -1,0 +1,120 @@
+I'm building a SaaS platform called Simpler Proofs – a Shopify/Etsy proofing and approval system for custom product sellers (e.g. pet art, embroidery, patches). I need your help scaffolding and building a modern, fast, mobile-first web app.
+
+✅ Project Overview
+Think of it like ShopFox Proofer (https://shopfox.io/our-apps/proofer-shopify-proof-management/) but more modern and powerful.
+
+The app needs to:
+
+Let sellers upload order proofs
+
+Let customers approve or request revisions
+
+Track approval status
+
+Manage internal files
+
+Generate run sheets
+
+Include email delivery + Shopify/Etsy integrations
+
+Offer a Free → Paid plan upgrade system
+
+🧱 Tech Stack
+Use the following technologies:
+
+Frontend: Next.js 14 (App Router)
+
+Styling: Tailwind CSS + shadcn/ui components
+
+Auth + DB + File Storage: Supabase
+
+Deployment: GitHub → Vercel
+
+Payments: Stripe
+
+Email: Resend or Postmark
+
+SMS: Twilio
+
+Integrations: Shopify API, Etsy API, Zapier
+
+🧪 What To Help Me Build First
+Start by scaffolding this core structure:
+
+Onboarding Wizard (/onboarding)
+
+7 steps: store info, branding, public URL, email setup, plan selection, invite team, integrations
+
+Save data to Supabase tables
+
+Dashboard (/dashboard)
+
+Tabs: Orders, Run Sheet, Proof History, Settings
+
+Filter/searchable order list from Supabase
+
+Statuses: Awaiting Proof → Sent → Approved/Rejected
+
+Upload proof file, comment, assign artist
+
+Proof Page (/[storeSlug]/[orderId])
+
+Public page with proof image
+
+Approve / request revision
+
+Undo approval timer
+
+Customer comment thread
+
+Run Sheet Export
+
+List of approved orders
+
+Button to download CSV + internal files ZIP
+
+Settings Tabs
+
+General, Email, Canned Replies, Proof Page Config, Artist Management, Integrations
+
+Plan Limit Tracking
+
+Track proof count, file uploads
+
+Show upgrade modal when limits are hit (triggered by specific actions)
+
+💡 Design Philosophy
+Make it feel like Shopify × Figma × Apple:
+
+Mobile-first but beautiful on desktop
+
+Minimalist, fast UI with bold typography
+
+Light/Dark Mode toggle
+
+Accent color branding per user
+
+Floating live chat support bubble (Crisp or Intercom)
+
+⚙️ Backend Notes
+Use Supabase for:
+
+Auth (email login or magic link)
+
+Database (tables: users, stores, orders, proofs, comments, files, settings, plans)
+
+File Storage (proofs, internal files, email banners)
+
+Add RLS policies per store
+
+Create Supabase Functions for actions like: send proof email, generate ZIPs
+
+🔁 GitHub + Deployment
+Save this project to GitHub
+
+I’ll connect GitHub to Vercel for deployment
+
+Use .env.local for Supabase, Stripe, Resend keys (I’ll input these manually)
+
+🚦 Next Step
+Please scaffold this structure inside Replit, with starter components and Supabase client wired in, so I can start building each module from the onboarding flow forward.
