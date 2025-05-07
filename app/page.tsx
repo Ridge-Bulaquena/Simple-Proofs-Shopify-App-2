@@ -33,13 +33,13 @@ export default async function Home() {
           <span className="text-xl font-bold">Simpler Proofs</span>
         </div>
         <nav className="flex gap-4 sm:gap-6">
-          <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4">
+          <Link href="#features" className="text-sm font-medium link-hover">
             Features
           </Link>
-          <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4">
+          <Link href="#pricing" className="text-sm font-medium link-hover">
             Pricing
           </Link>
-          <Link href="/login" className="text-sm font-medium hover:underline underline-offset-4">
+          <Link href="/login" className="text-sm font-medium link-hover">
             Login
           </Link>
         </nav>
