@@ -102,6 +102,22 @@
   }
   
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-md hover:border-primary/20;
+    @apply transition-all duration-300 hover:shadow-md hover:border-primary/20;
+  }
+  
+  .link-hover {
+    @apply relative inline-block overflow-hidden transition-all duration-300 ease-in-out;
+  }
+  
+  .link-hover::after {
+    @apply content-[''] absolute w-full h-[1px] bg-current left-0 bottom-0 opacity-0 transform translate-x-[-100%] transition-all duration-300 ease-in-out;
+  }
+  
+  .link-hover:hover::after {
+    @apply opacity-100 transform translate-x-0;
+  }
+  
+  .btn-hover {
+    @apply transform transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-md active:scale-[0.98];
   }
 }
