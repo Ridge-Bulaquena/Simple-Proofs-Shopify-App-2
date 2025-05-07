@@ -1,5 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
-import { createClient as createClientOriginal } from '@supabase/supabase-js'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 
 // Define types for our database tables
@@ -318,7 +317,7 @@ export type Tables<T extends keyof Database['public']['Tables']> = Database['pub
 export type InsertTables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
 export type UpdateTables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
 
-// Create a Supabase client for use on the server
+// Create a Supabase client for server components
 export const createClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -327,23 +326,11 @@ export const createClient = () => {
     throw new Error('Missing Supabase environment variables')
   }
   
-  return createServerClient(
-    supabaseUrl,
-    supabaseKey,
-    {
-      cookies: {
-        get(name) {
-          const cookie = cookies().get(name)
-          return cookie?.value
-        },
-      },
-    }
-  )
+  return createSupabaseClient<Database>(supabaseUrl, supabaseKey)
 }
 
-// Create a Supabase client directly for administrative operations 
-// that don't need cookie-based auth
-export const createAdminClient = () => {
+// Create a Supabase client for client components
+export const createBrowserClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   
@@ -351,5 +338,5 @@ export const createAdminClient = () => {
     throw new Error('Missing Supabase environment variables')
   }
   
-  return createClientOriginal<Database>(supabaseUrl, supabaseKey)
+  return createSupabaseClient<Database>(supabaseUrl, supabaseKey)
 }
