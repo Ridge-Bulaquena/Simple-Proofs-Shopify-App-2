@@ -1,5 +1,5 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
+import { createClient as createClientOriginal } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 
 // Define types for our database tables
@@ -327,31 +327,23 @@ export const createClient = () => {
     throw new Error('Missing Supabase environment variables')
   }
   
-  return createServerClient<Database>(
+  return createServerClient(
     supabaseUrl,
     supabaseKey,
     {
       cookies: {
-        get: (name: string) => {
-          const cookiesInstance = cookies();
-          const cookie = cookiesInstance.get(name);
-          return cookie?.value;
+        get(name) {
+          const cookie = cookies().get(name)
+          return cookie?.value
         },
-        set: (name: string, value: string, options: any) => {
-          // Server-side cookies cannot be set this way in Next.js App Router
-          // This is a placeholder for server-side cookie setting
-        },
-        remove: (name: string, options: any) => {
-          // Server-side cookies cannot be removed this way in Next.js App Router
-          // This is a placeholder for server-side cookie removal
-        }
-      }
+      },
     }
   )
 }
 
-// Create a Supabase client for use on the client
-export const createBrowserSupabaseClient = () => {
+// Create a Supabase client directly for administrative operations 
+// that don't need cookie-based auth
+export const createAdminClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   
@@ -359,38 +351,5 @@ export const createBrowserSupabaseClient = () => {
     throw new Error('Missing Supabase environment variables')
   }
   
-  return createServerClient<Database>(
-    supabaseUrl,
-    supabaseKey,
-    {
-      cookies: {
-        get: (name) => {
-          if (typeof window === 'undefined') {
-            return cookies().get(name)?.value
-          }
-          // Get cookies from browser on client side
-          const cookie = document.cookie
-            .split('; ')
-            .find((row) => row.startsWith(`${name}=`))
-          return cookie ? cookie.split('=')[1] : undefined
-        },
-        set: (name, value, options) => {
-          if (typeof window === 'undefined') {
-            // Server-side not implemented yet
-            return
-          }
-          // Set cookies on client side
-          document.cookie = `${name}=${value}; path=/; max-age=${options?.maxAge || 31536000}`
-        },
-        remove: (name, options) => {
-          if (typeof window === 'undefined') {
-            // Server-side not implemented yet
-            return
-          }
-          // Remove cookies on client side
-          document.cookie = `${name}=; path=/; max-age=0`
-        }
-      }
-    }
-  )
+  return createClientOriginal<Database>(supabaseUrl, supabaseKey)
 }
